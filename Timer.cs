@@ -8,12 +8,11 @@ public class Timer : MonoBehaviour
     private int _timerSeconds = 20;
     private bool _timerPaused;
     private bool _timerGoing;
+    private bool _timerCanGo;
     
     void Start()
     {
-        _timerPaused = false;
-        _timerGoing = true;
-        StartCoroutine(timer(_timerSeconds));
+        StartTimer();
     }
     
     void Update()
@@ -29,7 +28,7 @@ public class Timer : MonoBehaviour
     
     IEnumerator timer(int timerSeconds)
     {
-        while (true)
+        while (_timerGoing)
         {
             while (_timerPaused)
             {
@@ -46,6 +45,13 @@ public class Timer : MonoBehaviour
         }
     }
 
+    private void StartTimer()
+    {
+        _timerGoing = true;
+        _timerPaused = false;
+        StartCoroutine(timer(_timerSeconds));
+    }
+
     private void PauseTimer()
     {
         if (_timerPaused == false)
@@ -60,5 +66,10 @@ public class Timer : MonoBehaviour
             _timerPaused = false;
             //implement code to hide pause screen here
         }
+    }
+
+    private void StopTimer()
+    {
+        _timerGoing = false;
     }
 }
